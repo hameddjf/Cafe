@@ -5,7 +5,7 @@ from .models import Menu
 class MenuChildSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu
-        fields = ['id', 'name', 'slug', 'resizes_images', 'available',]
+        fields = ['id', 'name', 'slug', 'resizes_images', 'available', ]
 
 
 class MenuParentSerializer(serializers.ModelSerializer):

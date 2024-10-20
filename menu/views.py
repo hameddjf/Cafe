@@ -4,6 +4,7 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 from django.db.models import Prefetch
+from rest_framework import status
 
 from .models import Menu
 from .serializers import MenuChildSerializer, MenuParentSerializer
@@ -16,7 +17,7 @@ class MenuListView(APIView):
                      to_attr='prefetched_children')
         )
         serializer = MenuParentSerializer(parent_menus, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class MenuDetailView(APIView):

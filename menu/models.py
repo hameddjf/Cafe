@@ -12,7 +12,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 class Menu(MPTTModel):
     parent = TreeForeignKey(
         "self", verbose_name=_("menu"), on_delete=models.CASCADE, null=True, blank=True, related_name='children')
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=64)
     slug = models.SlugField(unique=True)
     price_small = models.IntegerField(
         null=True, blank=True, verbose_name=_("قیمت (کوچک)"))
