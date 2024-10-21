@@ -5,3 +5,4 @@ djangorestframework==3.15.2
 drf-spectacular==0.27.2
 pillow==10.4.0
 qrcode==8.0
+django-jazzmin==3.0.1
