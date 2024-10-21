@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +49,18 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'mptt',
 ]
+JAZZMIN_SETTINGS = {
+    # سایر تنظیمات...
+    "show_sidebar": True,
+    "navigation_expanded": False,
+
+    # "site_title": "عنوان سایت",
+    # "site_header": "هدر سایت",
+    "site_brand": "cafe menu",
+    "welcome_sign": "welcome to admin panel",
+    "copyright": "tapesh code",
+
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -113,7 +127,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 # ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'yourdomain.com']
-LANGUAGE_CODE = 'fa-ir'
+# LANGUAGE_CODE = 'fa-ir'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'Asia/Tehran'
 
@@ -126,7 +141,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-# STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'static'
 # STATICFILES_DIRS = [
 #     BASE_DIR / "static"
 # ]
