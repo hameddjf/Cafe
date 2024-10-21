@@ -15,9 +15,9 @@ class Menu(MPTTModel):
     name = models.CharField(max_length=50)
     slug = models.SlugField(unique=True)
     price_small = models.IntegerField(
-        null=True, blank=True, verbose_name=_("قیمت (کوچک)"))
+        null=True, blank=True, verbose_name=_("price (small)"))
     price_large = models.IntegerField(
-        null=True, blank=True, verbose_name=_("قیمت (بزرگ)"))
+        null=True, blank=True, verbose_name=_("price (large)"))
     original_images = models.ImageField(
         null=True, blank=True, upload_to='original_images/')
     resizes_images = ProcessedImageField(
@@ -29,11 +29,11 @@ class Menu(MPTTModel):
         null=True,
         blank=True,)
     description = models.TextField(blank=True)
-    available = models.BooleanField(default=True, verbose_name=_("موجود"))
+    available = models.BooleanField(default=True, verbose_name=_("available"))
 
     class Meta:
-        verbose_name = _("منو")
-        verbose_name_plural = _("منو ها")
+        verbose_name = _("Menu")
+        verbose_name_plural = _("Menues")
         ordering = ["parent__name", "name"]
 
     def __str__(self):

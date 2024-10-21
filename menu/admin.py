@@ -7,6 +7,8 @@ from django.utils.html import format_html
 from .models import Menu
 
 # Register your models here.
+from django.contrib.auth.models import Group
+admin.site.unregister(Group)
 
 
 class MenuInline(admin.TabularInline):

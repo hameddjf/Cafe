@@ -33,11 +33,11 @@ class OrderAdmin(admin.ModelAdmin):
 
     def get_menu_items(self, obj):
         return ", ".join([f"{item.menu_item.name} ({item.get_size_display()})" for item in obj.order_items.all()])
-    get_menu_items.short_description = _('آیتم‌های منو')
+    get_menu_items.short_description = _('menu items')
 
     def total_price(self, obj):
         return obj.total_price
-    total_price.short_description = _('قیمت کل')
+    total_price.short_description = _('total price')
 
 
 @admin.register(OrderItem)
