@@ -10,6 +10,8 @@ from menu.models import Menu
 class Order(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
         on_delete=models.CASCADE,
         verbose_name=_("user"),
         related_name='orders'

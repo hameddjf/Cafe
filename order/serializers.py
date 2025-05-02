@@ -9,14 +9,13 @@ from menu.serializers import MenuChildSerializer
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
-    menu_item_id = serializers.PrimaryKeyRelatedField(
-        queryset=Menu.objects.all(),
-        source='menu_item'
+    menu_item = serializers.PrimaryKeyRelatedField(
+        queryset=Menu.objects.all()  # حذف source='menu_item'
     )
 
     class Meta:
         model = OrderItem
-        fields = ['menu_item_id', 'size', 'quantity']
+        fields = ['menu_item', 'size', 'quantity']
 
     def validate_quantity(self, value):
         if value < 1:
@@ -25,10 +24,8 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     def validate_size(self, value):
         if value not in ['SMALL', 'LARGE']:
-            raise serializers.ValidationError(
-                "اندازه باید یکی از SMALL یا LARGE باشد.")
+            raise serializers.ValidationError("اندازه باید یکی از SMALL یا LARGE باشد.")
         return value
-
 
 class OrderSerializer(serializers.ModelSerializer):
     order_items = OrderItemSerializer(many=True)
@@ -40,7 +37,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         order_items_data = validated_data.pop('order_items')
-        order = Order.objects.create(**validated_data)
+        order = Order.objects.create(**validated_data)  # ایجاد Order
         for item_data in order_items_data:
-            OrderItem.objects.create(order=order, **item_data)
+            menu_item = item_data.pop('menu_item')  # حذف کلید menu_item از item_data
+            OrderItem.objects.create(order=order, menu_item=menu_item, **item_data)  # ایجاد OrderItem
         return order
