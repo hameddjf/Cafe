@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+import logging.config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'mptt',
+    'corsheaders',
 ]
 JAZZMIN_SETTINGS = {
     # سایر تنظیمات...
@@ -63,6 +65,8 @@ JAZZMIN_SETTINGS = {
 }
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -156,7 +160,75 @@ SITE_ID = 1
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '10/minute',  # کاربران ناشناس
+        'user': '100/hour',   # کاربران احراز هویت‌شده
+    },
 }
 SPECTACULAR_SETTINGS = {
     'COMPONENT_SPLIT_REQUEST': True,
+}
+
+
+CORS_ALLOWED_ORIGINS = [
+       "http://localhost:3000", 
+       "https://yourdomain.com",
+   ]
+
+# Security headers
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# # HTTPS settings
+# SECURE_SSL_REDIRECT = True  # ارجاع تمام درخواست‌ها به HTTPS
+# SESSION_COOKIE_SECURE = True  # کوکی‌ها فقط از طریق HTTPS قابل دسترسی باشند
+# CSRF_COOKIE_SECURE = True  # CSRF باید در HTTPS ارسال شود
+
+if DEBUG:
+    # سرور توسعه HTTP را فعال کنید
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+else:
+    # در حالت production باید HTTPS را فعال کنید
+    ALLOWED_HOSTS = ['yourdomain.com']
+
+    # مطمئن شوید HTTPS فعال است
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+# LOGGING
+LOGGING_CONFIG = None
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'django.log'),  # مسیر فایل لاگ
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
 }
